@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>소개서 기획 가이드 — 플롯 유형 × 구성항목</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --purple-bg: #EEF2FF; --purple-mid: #615FFF; --purple-dark: #312C85; --purple-deep: #1E1A4D;
+    --blue-bg: #EFF6FF; --blue-mid: #51A2FF; --blue-dark: #193CB8; --blue-border: #DBEAFE;
+    --green-bg: #F7FEE7; --green-mid: #9AE600; --green-dark: #3D6300; --green-border: #D8F999;
+    --gray-bg: #F9FAFB; --gray-mid: #D1D5DC; --gray-dark: #364153; --grey-border: #E5E7EB;
+    --amber-bg: #FEFCE8; --amber-mid: #FFDF20; --amber-dark: #432004;
+    --white: #FFFFFF; --off: #F8FAFC; --border: #E2E8F0;
+    --text: #404040; --text-sub: #525252; --text-muted: #737373;
+  }
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+  body {
+    font-family: "Noto Sans KR", "Malgun Gothic", "맑은 고딕", -apple-system, sans-serif;
+    background: var(--off);
+    color: var(--text);
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--purple-deep);
+    padding: 20px 32px;
+    display: flex; align-items: center; gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header .logo { width: 36px; height: 36px; background: #7C86FF; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .site-header h1 { font-size: 17px; font-weight: 600; color: #fff; letter-spacing: -0.2px; }
+  .site-header p  { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+  /* ── Layout ── */
+  .main {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 0;
+    height: calc(100vh - 77px);
+    min-height: 0;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    height: 100%;
+    min-height: 0;
+    position: sticky;
+    top: 77px;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-label {
+    font-size: 10px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase;
+    padding: 0 20px 10px;
+  }
+  .story-btn {
+    display: block; width: 100%; text-align: left;
+    padding: 12px 20px;
+    background: none; border: none; border-left: 3px solid transparent;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .story-btn:hover { background: var(--off); }
+  .story-btn.active { background: var(--purple-bg); border-left-color: var(--purple-mid); }
+  .story-btn .snum { font-size: 10px; color: var(--text-muted); font-weight: 600; margin-bottom: 2px; }
+  .story-btn .sname { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
+  .story-btn .stag { font-size: 11px; font-weight: 500; color: var(--text-sub); margin-top: 2px; }
+  .story-btn.active .sname { color: var(--purple-dark); }
+  .story-btn.active .stag  { color: var(--purple-mid); }
+  .sidebar-divider { height: 1px; background: var(--border); margin: 8px 20px; }
+
+  /* ── Content ── */
+  .content {
+    padding: 28px 32px;
+    overflow-y: auto;
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Placeholder */
+  .placeholder {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 400px; color: var(--text-muted); gap: 12px;
+  }
+  .placeholder-icon { font-size: 40px; opacity: 0.4; }
+  .placeholder p { font-size: 15px; }
+
+  /* Card header */
+  .card-header {
+    background: var(--purple-dark);
+    border-radius: 12px 12px 0 0;
+    padding: 18px 24px;
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .card-header .big-num { font-size: 24px; font-weight: 700; line-height: 1.1; color: rgba(255,255,255,0.3); }
+  .card-header .title-wrap { flex: 1; }
+  .card-header h2 { font-size: 20px; font-weight: 500; color: #fff; }
+  .card-header .tag-badge {
+    display: inline-block; background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.85); font-size: 11px; font-weight: 600;
+    padding: 3px 12px 5px; border-radius: 20px; margin-top: 4px;
+  }
+
+  /* Card body */
+  .card-body {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  /* Desc + flow */
+  .card-desc {
+    padding: 16px 24px;
+    font-size: 14px; color: var(--text-sub); line-height: 1.65; letter-spacing: -0.02em;
+    border-bottom: 1px solid var(--border);
+    background: var(--off);
+  }
+
+  .flow-section {
+    padding: 14px 24px;
+  }
+  .flow-section-label { font-size: 12px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase;  margin-bottom: 10px; }
+  .flow-steps { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .flow-step {
+    background: var(--purple-bg); color: var(--purple-dark);
+    font-size: 12px; font-weight: 500; padding: 5px 12px 6px; border-radius: 20px;
+  }
+  .flow-arrow { color: var(--text-muted); font-size: 12px; }
+
+  /* Items section */
+  .items-section { padding: 20px 24px; border-top: 1px solid var(--border); }
+  .items-section:last-of-type { border-bottom: none; }
+  .items-section-header {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+  }
+  .tier-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .tier-dot.must  { background: var(--blue-mid); }
+  .tier-dot.rec   { background: var(--green-mid); }
+  .tier-dot.opt   { background: var(--gray-mid); }
+  .tier-label { font-size: 12px; font-weight: 700; }
+  .tier-label.must  { color: var(--blue-dark); }
+  .tier-label.rec   { color: var(--green-dark); }
+  .tier-label.opt   { color: var(--gray-dark); }
+  .tier-desc { font-size: 12px; color: var(--text-muted); }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px; line-height: 1.2;
+    font-size: 12px; font-weight: 500; padding: 5px 12px 6px;
+    border-radius: 8px; border: 1px solid;
+    transition: transform 0.1s;
+  }
+  .badge:hover { transform: translateY(-1px); }
+  .badge.must { background: var(--blue-bg); color: var(--blue-dark); border-color: var(--blue-border); }
+  .badge.rec  { background: var(--green-bg); color: var(--green-dark); border-color: var(--green-border); }
+  .badge.opt  { background: var(--gray-bg); color: var(--gray-dark); border-color: var(--grey-border); }
+  .badge .bnum { font-size: 10px; opacity: 0.6; font-weight: 700;}
+
+  /* Tip */
+  .tip-box {
+    margin: 0; padding: 16px 24px 17px;
+    background: var(--amber-bg);
+    border-top: 1px solid #FAC775;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .tip-icon { font-size: 15px; flex-shrink: 0; }
+  .tip-text { font-size: 13px; color: var(--amber-dark); align-items: center; }
+
+  /* Matrix tab */
+  .tab-bar {
+    display: flex; gap: 0; border-bottom: 2px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .tab-btn {
+    padding: 10px 20px; font-size: 13px; font-weight: 600;
+    background: none; border: none; border-bottom: 2px solid transparent;
+    margin-bottom: -2px; cursor: pointer; color: var(--text-muted);
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--purple-dark); border-bottom-color: var(--purple-dark); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Matrix table */
+  .matrix-wrap {
+    flex: 1;
+    min-height: 200px;
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+  .matrix-table {
+    border-collapse: separate;
+    border-spacing: 0;
+   
+    border-right: 0; 
+    border-bottom: 0;
+    width: 100%;
+    font-size: 13px;
+    min-width: 900px;
+    background: #fff;
+  }
+  
+  .matrix-table th {
+    background: var(--purple-dark); color: #fff;
+    padding: 8px 6px; text-align: center; font-size: 12px; font-weight: 500;
+    position: sticky; top: 0;
+    z-index: 2;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--off);
+    border-right: 1px solid var(--off);
+  }
+
+  .matrix-table th:first-child {
+    width: 32px;
+    min-width: 32px;
+    max-width: 32px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .matrix-table th:nth-child(2) {
+    min-width: 120px;
+    max-width: 180px;
+    width: 160px;
+  }
+  .matrix-table th:not(:first-child):not(:nth-child(2)) {
+    min-width: 90px;
+    max-width: 90px;
+    width: 90px;
+  }
+  .matrix-table .item-num {
+    color: var(--gray-dark);
+    font-weight: 400;
+    text-align: center;
+    background: transparent;
+  }
+  .matrix-table .item-name {
+    font-size: 13px;
+    color: var(--text);
+    padding: 6px 10px;
+    min-width: 140px;
+    max-width: 180px;
+    width: 160px;
+    text-align: left;
+    box-sizing: border-box;
+    word-break: keep-all;
+  }
+  .matrix-table .sec-label {
+    background: #F0EFFD;
+    color: var(--purple-dark);
+    font-weight: 700;
+    font-size: 13px;
+    align-items: center;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  .matrix-table td { border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); padding: 5px 4px; text-align: center; vertical-align: middle; }
+  .matrix-table .m-must { background: var(--blue-bg); color: var(--blue-mid); font-weight: 700; font-size: 13px; }
+  .matrix-table .m-rec  { background: var(--green-bg); color: var(--green-mid); font-weight: 700; font-size: 13px; }
+  .matrix-table .m-opt  { background: var(--gray-bg); color: var(--gray-mid); font-weight: 700; font-size: 13px; }
+
+  .matrix-table th:last-child,
+  .matrix-table td:last-child {
+    border-right: none !important;
+  }
+
+  /* Sidebar scrollbar — 평소엔 숨김, 스크롤 시 표시 */
+  .sidebar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .sidebar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .sidebar::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+    transition: background-color 0.2s;
+  }
+  .sidebar:hover::-webkit-scrollbar-thumb {
+    background: rgba(99, 117, 143, 0.15);
+  }
+  .sidebar:hover {
+    scrollbar-color: rgba(99, 117, 143, 0.15) transparent;
+  }
+
+  /* 크롬, 사파리, 엣지용 */
+  .matrix-wrap::-webkit-scrollbar {
+    width: 6px;  /* 세로 스크롤바 두께 */
+    height: 6px; /* 가로 스크롤바 두께 */
+  }
+
+  .matrix-wrap::-webkit-scrollbar-track {
+    background: transparent; /* 스크롤바 길(선)을 투명하게 */
+  }
+
+  .matrix-wrap::-webkit-scrollbar-thumb {
+    background: rgba(99, 117, 143, 0.15);
+    border-radius: 10px;
+  }
+
+  .matrix-wrap::-webkit-scrollbar-thumb:hover {
+    background: rgba(99, 117, 143, 0.25);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .sidebar { height: auto; position: static; display: flex; flex-wrap: wrap; gap: 4px; padding: 12px; }
+    .story-btn { width: auto; border-left: none;  padding: 8px 12px; }
+    .story-btn.active { border-bottom-color: var(--purple-mid); }
+    .story-btn .snum, .story-btn .stag { display: none; }
+    .sidebar-label, .sidebar-divider { display: none; }
+    .content { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">📋</div>
+  <div>
+    <h1>소개서 기획 가이드 — 플롯 유형 × 구성항목</h1>
+    <p>플롯 유형을 선택하면 체크리스트에서 어떤 항목을 써야 하는지 안내합니다</p>
+  </div>
+</header>
+
+<div class="main">
+  <nav class="sidebar">
+    <div class="sidebar-label">플롯 유형 선택</div>
+    <div id="storyNav"></div>
+    <div class="sidebar-divider"></div>
+    <button class="story-btn" id="matrixBtn" onclick="showMatrix()">
+      <div class="snum">MATRIX</div>
+      <div class="sname">전체 매핑 매트릭스</div>
+      <div class="stag">유형 × 구성항목 한눈에 보기</div>
+    </button>
+  </nav>
+
+  <main class="content" id="content">
+    <div class="placeholder">
+      <div class="placeholder-icon">◈</div>
+      <p>왼쪽에서 플롯 유형을 선택해주세요</p>
+    </div>
+  </main>
+</div>
+
+<script>
+const stories = [
+  {
+    num:"01", name:"차근차근", tag:"순차 설명형",
+    desc:"시장 현황 → 원리 → 적용 순으로 단계적으로 소개. 독자가 서비스에 생소하거나 차별점을 명확히 인식하지 못한 경우에 특히 적합. 큰 개념에서 세부 개념으로 좁혀가며 서술합니다.",
+    flow:["용어·개념 정의","시장 현황","작동 원리","핵심 역량","시장 접점","고객 혜택","신뢰 보강"],
+    must:[[27,"시장 상황"],[18,"서비스 원리"],[13,"기대 효과"],[15,"주요 기능·특징"]],
+    rec: [[25,"시장 규모"],[20,"보유 역량"],[37,"자주 묻는 질문"],[35,"주요 고객 유형"]],
+    opt: [[51,"인증·특허"],[14,"서비스 세부 사항"],[12,"해결 방안"]],
+    tip: "수치·출처를 가진 시장 현황(27)과 작동 원리(18)가 핵심. 투자자·발주처 대상이라면 주요 지표 현황(11)도 추가 검토하세요."
+  },
+  {
+    num:"02", name:"속시원한 공감", tag:"문제 해결 제시형",
+    desc:"독자가 겪고 있는 불편함이나 비효율에 공감한 뒤, 명쾌한 해결책을 제시하는 구성. 공감대 형성이 선행되어야 하며, 대다수가 경험한 보편적 문제를 소재로 삼아야 합니다.",
+    flow:["문제 상황","기존 한계","자사 접근 배경","개선 효과","근거 자료","도입 절차","변화된 일상"],
+    must:[[8,"문제 현상 파악"],[9,"핵심 문제 정의"],[12,"해결 방안"],[13,"기대 효과"]],
+    rec: [[40,"인터뷰/리뷰"],[43,"비포애프터 그래프"],[17,"서비스 제공 절차"],[42,"비포애프터 이미지"]],
+    opt: [[37,"자주 묻는 질문"],[6,"맺음말"],[10,"설문 결과"]],
+    tip: "문제 현상(8)과 핵심 문제 정의(9)는 세트. '무슨 일이 일어나고 있나' → '진짜 문제가 뭔가' 순서로 흐름을 잡으세요."
+  },
+  {
+    num:"03", name:"위로와 공감", tag:"감성 공감형",
+    desc:"업무 부담이 큰 담당자(관리소장, 시설팀 담당자, 건물주, 주택관리사 등)를 주요 독자로 설정할 때 효과적. 문제 정의와 공감 포인트를 정확히 설정해야 역효과를 방지할 수 있습니다.",
+    flow:["구체적 상황","불편 사항","원인·개선 가능성","해결 방향","달라진 환경","사례·원리","핵심 가치"],
+    must:[[36,"고객 이용 시나리오"],[8,"문제 현상 파악"],[12,"해결 방안"],[41,"사용 이미지"]],
+    rec: [[39,"서비스 제공 사례"],[18,"서비스 원리"],[13,"기대 효과"],[35,"주요 고객 유형"]],
+    opt: [[40,"인터뷰/리뷰"],[6,"맺음말"],[5,"브랜드 철학"]],
+    tip: "고객 이용 시나리오(36)에서 공감 포인트를 정밀하게 잡아야 역효과를 막을 수 있어요. 구구절절한 감성 표현보다 '상황의 정확한 묘사'가 핵심입니다."
+  },
+  {
+    num:"04", name:"할 말만 정확히", tag:"핵심 집중형",
+    desc:"서비스의 용도와 특징이 매우 명확하고 좁은 영역을 다룰 때 적합. 자사가 무엇을 하는지를 빠르게 전달하고, 시연 및 이용 방법 중심으로 구성합니다. 간결함이 이 유형의 생명입니다.",
+    flow:["브랜드 소개","서비스 정의","비포애프터","주요 기능","수치·데이터","이용 방법","맺음말"],
+    must:[[2,"브랜드 소개"],[15,"주요 기능·특징"],[42,"비포애프터 이미지"],[1,"슬로건"]],
+    rec: [[43,"비포애프터 그래프"],[24,"서비스 요금 안내"],[22,"사용 방법"],[23,"제한 사항"]],
+    opt: [[6,"맺음말"],[16,"부가 기능·특징"],[17,"서비스 제공 절차"]],
+    tip: "마무리는 한 문장 맺음말(6)로 딱 끊으세요. 부가 기능(16) 언급을 최소화하고 주요 기능(15)에만 집중하세요."
+  },
+  {
+    num:"05", name:"자랑이 많은 편", tag:"프리미엄 강조형",
+    desc:"경쟁 서비스와 비교하기 어려운 독보적인 기술력 또는 전문성이 있을 때 활용. 고품질을 기대하는 발주처나 프리미엄 시장을 겨냥할 때 효과적. 스펙과 고객 혜택을 연결하는 서술이 중요합니다.",
+    flow:["대표 사례·이미지","타겟 고객","스펙·역량","고객 혜택","자사 기준 대비","독보적 기술","가격 정보"],
+    must:[[19,"핵심 기술"],[51,"인증·특허"],[20,"보유 역량"],[21,"시안 이미지"]],
+    rec: [[39,"서비스 제공 사례"],[31,"시장 경쟁력"],[24,"서비스 요금 안내"],[50,"수상 경력"]],
+    opt: [[52,"보도자료"],[33,"경쟁 우위"],[53,"멤버 정보"]],
+    tip: "비교 대상은 경쟁사가 아닌 '자사 이전 방식' 또는 '업계 일반 표준'으로 잡으세요. 서비스 요금 안내(24) 공개가 프리미엄 시장에서 오히려 신뢰도를 높여요."
+  },
+  {
+    num:"06", name:"문제의 재정의", tag:"통념 반박형",
+    desc:"기존의 통념이나 상식에 의문을 제기하거나, 원인을 알 수 없었던 문제에 명쾌한 답을 제시. 독자의 기존 인식을 전환해야 하므로, 충분한 근거 자료와 자신감 있는 어조가 핵심입니다.",
+    flow:["문제 상황","통념·기존 방식","통념 반론","새로운 해결책","근거 자료","체험 기회","선택지·대안"],
+    must:[[9,"핵심 문제 정의"],[12,"해결 방안"],[10,"설문 결과"],[61,"시범 사업 결과"]],
+    rec: [[30,"경쟁사 분석"],[39,"서비스 제공 사례"],[40,"인터뷰/리뷰"],[11,"주요 지표 현황"]],
+    opt: [[37,"자주 묻는 질문"],[17,"서비스 제공 절차"],[6,"맺음말"]],
+    tip: "통념을 반박하는 만큼 데이터(10, 61)가 충분해야 해요. 경쟁사 직접 비교보다 실제 고객 후기(40)와 현장 사례(39)로 설득하세요."
+  },
+  {
+    num:"07", name:"비교우위", tag:"차별화 강조형",
+    desc:"비교 대상이 명확하거나, 기존 업계의 비효율과 대비하여 자사 특징을 부각할 때 사용. 자사 브랜드 인지도가 상대적으로 낮을 때도 유효합니다. 경쟁사 직접 폄하는 역효과를 초래하므로 자사 강점 부각에 집중합니다.",
+    flow:["브랜드 소개","서비스 대상","선택지 제시","자사 장점","최적 적합 상황","도입 근거","도입 절차"],
+    must:[[32,"핵심 역량"],[33,"경쟁 우위"],[31,"시장 경쟁력"],[2,"브랜드 소개"]],
+    rec: [[30,"경쟁사 분석"],[17,"서비스 제공 절차"],[35,"주요 고객 유형"],[13,"기대 효과"]],
+    opt: [[24,"서비스 요금 안내"],[37,"자주 묻는 질문"],[47,"수주 경로"]],
+    tip: "핵심 역량(32)은 '정성적 차별점', 경쟁 우위(33)는 '정량·구조적 우위'로 역할을 분리하면 내용 중복을 피할 수 있어요."
+  },
+  {
+    num:"08", name:"리스트", tag:"다기능 카탈로그형",
+    desc:"서비스의 종류가 다양하고 고객 유형에 따라 다르게 제안해야 할 때 활용. 페이지 수가 많아지는 구조이므로 고객 유형을 사전에 명확히 정의하고 해당 타겟에 맞는 페이지만 선별 제공하세요.",
+    flow:["[챕터1] 브랜드 정체성","서비스 개요","고객 유형","핵심 역량·팀 구성","[챕터2] 서비스 상세","도입 프로세스·FAQ","변화된 모습"],
+    must:[[2,"브랜드 소개"],[14,"서비스 세부 사항"],[35,"주요 고객 유형"],[5,"브랜드 철학"]],
+    rec: [[48,"운영 프로세스"],[37,"자주 묻는 질문"],[15,"주요 기능·특징"],[16,"부가 기능·특징"]],
+    opt: [[53,"멤버 정보"],[54,"멤버 이미지"],[24,"서비스 요금 안내"],[71,"목차 양식"]],
+    tip: "고객 유형(35)을 사전에 명확히 정의하고, 해당 타겟에 맞는 페이지만 선별 제공하세요."
+  },
+  {
+    num:"09", name:"신뢰중심", tag:"신뢰 구축 우선형",
+    desc:"신뢰도가 계약 결정에 결정적인 영향을 미치는 서비스에 적합. 건물 보안·방재, 공동주택 회계, 주택임대관리, 의료·복지시설 유지관리 등이 해당. 한 번 선택하면 교체가 어려운 보수적 시장을 위한 구성입니다.",
+    flow:["브랜드 소개","핵심 가치","미준수 사례","해결 방식","데이터·증거","부가 서비스","경각심·마무리"],
+    must:[[2,"브랜드 소개"],[51,"인증·특허"],[39,"서비스 제공 사례"],[50,"수상 경력"]],
+    rec: [[52,"보도자료"],[61,"시범 사업 결과"],[43,"비포애프터 그래프"],[49,"연혁/히스토리"]],
+    opt: [[37,"자주 묻는 질문"],[63,"약식 재무제표"],[45,"지배구조"]],
+    tip: "신뢰성 + 수치 기반 특장점 두 가지가 반드시 함께 있어야 계약 설득이 가능합니다."
+  },
+  {
+    num:"10", name:"스토리텔링", tag:"창업·개발 스토리형",
+    desc:"서비스 탄생 배경에 명확한 에피소드가 있을 때 활용. 현장에서 직접 경험한 문제를 계기로 시작된 사업, 반복되는 민원과 비효율을 해결하기 위해 개발된 솔루션 등이 해당. 스토리 자체에 철학과 설득력이 담겨야 합니다.",
+    flow:["서비스 개요","창업·개발 스토리","개선 히스토리","성과 지표","기존 대비 개선점","도입 프로세스·FAQ","변화된 모습"],
+    must:[[3,"창업 배경/스토리"],[49,"연혁/히스토리"],[5,"브랜드 철학"],[2,"브랜드 소개"]],
+    rec: [[59,"경영 실적"],[53,"멤버 정보"],[39,"서비스 제공 사례"],[61,"시범 사업 결과"]],
+    opt: [[64,"중장기 성장 목표"],[37,"자주 묻는 질문"],[6,"맺음말"]],
+    tip: "스토리부터 시작하면 본론이 지연돼요. 반드시 서비스 소개(2)를 먼저 배치한 뒤 스토리(3)로 이어가세요."
+  }
+];
+
+const checklist = [
+  {sec:"① 브랜드 & 스토리", items:[
+    [1,"슬로건"],[2,"브랜드 소개"],[3,"창업 배경/스토리"],
+    [4,"브랜드 이미지"],[5,"브랜드 철학"],[6,"맺음말"],[7,"연락처"]
+  ]},
+  {sec:"② 문제 & 솔루션", items:[
+    [8,"문제 현상 파악"],[9,"핵심 문제 정의"],[10,"설문 결과"],
+    [11,"주요 지표 현황"],[12,"해결 방안"],[13,"기대 효과"]
+  ]},
+  {sec:"③ 서비스", items:[
+    [14,"서비스 세부 사항"],[15,"주요 기능·특징"],[16,"부가 기능·특징"],
+    [17,"서비스 제공 절차"],[18,"서비스 원리"],[19,"핵심 기술"],
+    [20,"보유 역량"],[21,"시안 이미지"],[22,"사용 방법"],
+    [23,"제한 사항"],[24,"서비스 요금 안내"]
+  ]},
+  {sec:"④ 시장 & 경쟁", items:[
+    [25,"시장 규모"],[26,"시장 확장성"],[27,"시장 상황"],
+    [28,"시장 이슈"],[29,"시장 특징"],[30,"경쟁사 분석"],
+    [31,"시장 경쟁력"],[32,"핵심 역량"],[33,"경쟁 우위"],[34,"약점/보완사항"]
+  ]},
+  {sec:"⑤ 고객 & 신뢰", items:[
+    [35,"주요 고객 유형"],[36,"고객 이용 시나리오"],[37,"자주 묻는 질문"],
+    [38,"고객 응대 절차"],[39,"서비스 제공 사례"],[40,"인터뷰/리뷰"],
+    [41,"사용 이미지"],[42,"비포애프터 이미지"],[43,"비포애프터 그래프"]
+  ]},
+  {sec:"⑥ 회사 현황", items:[
+    [44,"사업 현황"],[45,"지배구조"],[46,"관계사 네트워크"],
+    [47,"수주 경로"],[48,"운영 프로세스"],[49,"연혁/히스토리"],
+    [50,"수상 경력"],[51,"인증·특허"],[52,"보도자료"],
+    [53,"멤버 정보"],[54,"멤버 이미지"]
+  ]},
+  {sec:"⑦ 성과 & 수치", items:[
+    [55,"3개년 매출 추이"],[56,"서비스별 매출 추이"],[57,"부문별 매출 추이"],
+    [58,"지역별 매출 추이"],[59,"경영 실적"],[60,"마케팅 달성 수치"],
+    [61,"시범 사업 결과"],[62,"비즈니스 모델"],[63,"약식 재무제표"]
+  ]},
+  {sec:"⑧ 전략 & 계획", items:[
+    [64,"중장기 성장 목표"],[65,"신규 서비스 개발 계획"],[66,"성장 전략"],
+    [67,"인력 운용 계획"],[68,"추진 일정"],[69,"마케팅 전략·리서치"],
+    [70,"리스크 관리"]
+  ]},
+  {sec:"⑨ 양식", items:[[71,"목차 양식"],[72,"표지 양식"]]}
+];
+
+// Build reverse map for matrix
+const reverseMap = {};
+stories.forEach(s => {
+  const addTier = (items, key) => items.forEach(([n]) => {
+    if (!reverseMap[n]) reverseMap[n] = {};
+    reverseMap[n][s.num] = { symbol: '●', key };
+  });
+  addTier(s.must, 'must');
+  addTier(s.rec,  'rec');
+  addTier(s.opt,  'opt');
+});
+
+// Build nav
+const nav = document.getElementById('storyNav');
+stories.forEach((s, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'story-btn';
+  btn.id = `btn-${s.num}`;
+  btn.innerHTML = `<div class="snum">${s.num}</div><div class="sname">${s.name}</div><div class="stag">${s.tag}</div>`;
+  btn.onclick = () => showStory(i);
+  nav.appendChild(btn);
+});
+
+let activeStory = null;
+let matrixActive = false;
+
+function showStory(idx) {
+  matrixActive = false;
+  document.querySelectorAll('.story-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`btn-${stories[idx].num}`).classList.add('active');
+  document.getElementById('matrixBtn').classList.remove('active');
+  activeStory = idx;
+
+  const s = stories[idx];
+  const flowHtml = s.flow.map((f, i) =>
+    `<span class="flow-step">${f}</span>${i < s.flow.length-1 ? '<span class="flow-arrow">→</span>' : ''}`
+  ).join('');
+
+  const badgesHtml = (items, cls) => items.map(([n, nm]) =>
+    `<span class="badge ${cls}"><span class="bnum">${n}</span>${nm}</span>`
+  ).join('');
+
+  document.getElementById('content').innerHTML = `
+    <div class="card-header">
+      <div class="big-num">${s.num}</div>
+      <div class="title-wrap">
+        <h2>${s.name}</h2>
+        <span class="tag-badge">${s.tag}</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-desc">${s.desc}</div>
+      <div class="flow-section">
+        <div class="flow-section-label">구성 흐름</div>
+        <div class="flow-steps">${flowHtml}</div>
+      </div>
+      <div class="items-section">
+        <div class="items-section-header">
+          <div class="tier-dot must"></div>
+          <span class="tier-label must">필수 항목</span>
+          <span class="tier-desc">— 이 흐름을 만들려면 꼭 필요해요</span>
+        </div>
+        <div class="badges">${badgesHtml(s.must, 'must')}</div>
+      </div>
+      <div class="items-section">
+        <div class="items-section-header">
+          <div class="tier-dot rec"></div>
+          <span class="tier-label rec">권장 항목</span>
+          <span class="tier-desc">— 설득력을 높여주는 강화 요소</span>
+        </div>
+        <div class="badges">${badgesHtml(s.rec, 'rec')}</div>
+      </div>
+      <div class="items-section">
+        <div class="items-section-header">
+          <div class="tier-dot opt"></div>
+          <span class="tier-label opt">선택 항목</span>
+          <span class="tier-desc">— 상황에 따라 추가 가능</span>
+        </div>
+        <div class="badges">${badgesHtml(s.opt, 'opt')}</div>
+      </div>
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <span class="tip-text">${s.tip}</span>
+      </div>
+    </div>
+  `;
+}
+
+function showMatrix() {
+  matrixActive = true;
+  document.querySelectorAll('.story-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('matrixBtn').classList.add('active');
+
+  // Table header for stories
+  const storyHeaders = stories.map(s =>
+    `<th title="${s.name}">${s.num}<br>${s.name}</th>`
+  ).join('');
+
+  // Table body rows
+  const matrixRows = checklist.map(({sec, items}) => {
+    // Section label row
+    const sectionRow = `<tr><td class="sec-label" colspan="${3 + stories.length}">${sec}</td></tr>`;
+    // Item rows
+    const itemRows = items.map(([num, name]) => {
+      const tierCells = stories.map(s => {
+        const t = reverseMap[num]?.[s.num];
+        let cls = '';
+        let symbol = '';
+        if (t && typeof t === 'object') {
+          cls = t.key === 'must' ? 'm-must' : t.key === 'rec' ? 'm-rec' : t.key === 'opt' ? 'm-opt' : '';
+          symbol = t.symbol;
+        } else {
+          symbol = t || '';
+        }
+        return `<td class="${cls}">${symbol}</td>`;
+      }).join('');
+      return `<tr><td class="item-num">${num}</td><td class="item-name">${name}</td>${tierCells}</tr>`;
+    }).join('');
+    return sectionRow + itemRows;
+  }).join('');
+
+  document.getElementById('content').innerHTML = `
+    <div style="margin-bottom:16px;">
+      <h2 style="font-size:18px;font-weight:700;color:var(--purple-dark);margin-bottom:6px;">전체 매핑 매트릭스</h2>
+      <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-sub);flex-wrap:wrap;">
+        <span>플롯 유형 × 구성항목 적합도 한눈에 보기</span>
+        <span style="color:#D1D5DC;">|</span>
+        <span class="badge must" style="font-size:11px;font-weight:600;padding:4px 8px 4px 8px;line-height:1;display:inline-flex;align-items:center;gap:6px;border-radius:8px;border-width:1.5px;">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--blue-mid);"></span>
+          필수
+        </span>
+        <span class="badge rec" style="font-size:11px;font-weight:600;padding:4px 8px 4px 8px;line-height:1;display:inline-flex;align-items:center;gap:6px;border-radius:8px;border-width:1.5px;">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green-mid);"></span>
+          권장
+        </span>
+        <span class="badge opt" style="font-size:11px;font-weight:600;padding:4px 8px 4px 8px;line-height:1;display:inline-flex;align-items:center;gap:6px;border-radius:8px;border-width:1.5px;">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gray-mid);"></span>
+          선택
+        </span>
+      </div>
+    </div>
+    <div class="matrix-wrap">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>항목명</th>
+            ${storyHeaders}
+          </tr>
+        </thead>
+        <tbody>${matrixRows}</tbody>
+      </table>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
