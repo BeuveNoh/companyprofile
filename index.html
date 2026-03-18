@@ -47,7 +47,7 @@
     display: grid;
     grid-template-columns: 280px 1fr;
     gap: 0;
-    height: calc(100vh - 77px);
+    height: calc(100vh - 77px - 42px);
     min-height: 0;
   }
 
@@ -325,6 +325,33 @@
     background: rgba(99, 117, 143, 0.25);
   }
 
+  /* ── Footer ── */
+  .site-footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--purple-deep);
+    padding: 0 32px;
+    height: 42px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .footer-links {
+    display: flex; align-items: center; gap: 20px;
+  }
+  .footer-link {
+    font-size: 12px; color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 5px;
+    transition: color 0.15s;
+    letter-spacing: -0.1px;
+  }
+  .footer-link:hover { color: rgba(255,255,255,1); }
+  .footer-copyright {
+    font-size: 11px; color: rgba(255,255,255,0.4);
+    letter-spacing: -0.1px;
+  }
+
   /* Responsive */
   @media (max-width: 768px) {
     .main { grid-template-columns: 1fr; }
@@ -334,6 +361,9 @@
     .story-btn .snum, .story-btn .stag { display: none; }
     .sidebar-label, .sidebar-divider { display: none; }
     .content { padding: 16px; }
+    .site-footer { padding: 0 16px; }
+    .footer-links { gap: 12px; }
+    .footer-copyright { display: none; }
   }
 </style>
 </head>
@@ -661,5 +691,18 @@ function showMatrix() {
   `;
 }
 </script>
+
+<footer class="site-footer">
+  <div class="footer-links">
+    <a class="footer-link" href="https://docs.google.com/document/d/1pZLEhKBnQPHHiki2CTUghGUpZh23UuxlSZxIEjzzPGQ/edit?usp=sharing" target="_blank">
+      🔗 회사소개서 기획 가이드
+    </a>
+    <a class="footer-link" href="https://docs.google.com/spreadsheets/d/15tgdapC_H1UqCgEtLm1H7lKQpbQiB-XDVhv-gnCRJKY/edit?usp=drive_link" target="_blank">
+      🔗 구성항목 체크리스트
+    </a>
+  </div>
+  <div class="footer-copyright">Copyright © 우리관리㈜ 브랜드실</div>
+</footer>
+
 </body>
 </html>
